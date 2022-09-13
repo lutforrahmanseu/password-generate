@@ -10,18 +10,19 @@ const getElement = (id) => {
 const handleSlider = (event) => {
   const charCountEl = getElement("char-count");
   charCountEl.innerText = event;
+  generatePassword();
 };
 
 const handleCheckbox = () => {
   const numberEl = getElement("number");
   const specialCharEl = getElement("special");
 
-  if (numberEl.checked === "true") {
-    charSet = "0123456789";
-  } else {
+  if (numberEl.checked === true) {
+    charSet =charSet+ "0123456789";
+  } else{
     charSet = charSet.replace(/0123456789/g, "");
   }
-  if (specialCharEl.checked === "true") {
+  if (specialCharEl.checked === true) {
     charSet += "!@#$%^&()";
   } else {
     charSet = charSet.replace(/[^\w ]/g, "");
@@ -30,18 +31,15 @@ const handleCheckbox = () => {
 };
 
 const generatePassword = () => {
-  const passwordEl = getElement("pass");
-
-  const charCount = getElement("char-count");
-
-  let password = "";
-
-  for (let i = 0; i < charCount.length; i++) {
+  const passwordEl = getElement("password");
+  const charCount = getElement("char-count").innerText;
+  let password = " ";
+  for (let i = 0; i < charCount; i++) {
     const randomNumber = Math.floor(Math.random() * charSet.length);
     password += charSet.substring(randomNumber, randomNumber + 1);
+   
   }
-
-  passwordEl.innerText = password;
+  passwordEl.value = password;
 };
 
 const handleViewPassword = () => {
@@ -64,5 +62,4 @@ const handleCopy = () => {
   document.execCommand("copy");
   alert("Password copied to clipboard");
 };
-
 generatePassword();
